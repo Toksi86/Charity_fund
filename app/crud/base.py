@@ -1,7 +1,9 @@
-from fastapi.encoders import jsonable_encoder
 from typing import Optional
+
+from fastapi.encoders import jsonable_encoder
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.models import User
 
 
@@ -81,3 +83,35 @@ class CRUDBase:
         )
 
         return db_obj.scalars().first()
+
+    # TODO: SEE LATER
+    def create_object_without_commit(
+            self,
+            obj_in,
+            user: Optional[User] = None
+    ):
+        obj_in_data = obj_in.dict()
+        if user is not None:
+            obj_in_data['user_id'] = user.id
+        db_obj = self.model(**obj_in_data)
+        return db_obj
+
+    # TODO: SEE LATER
+    async def commit_objects(
+            self,
+            obj_list,
+            session: AsyncSession,
+    ):
+        session.add_all(obj_list)
+        await session.commit()
+
+    async def get_unfilled_projects(
+        self,
+        session: AsyncSession
+    ):
+        objects = await session.execute(
+            select(self.model).where(
+                self.model.fully_invested == 0
+            ).order_by(self.model.create_date)
+        )
+        return objects.scalars().all()
