@@ -59,7 +59,7 @@ async def create_project(
         session=session,
         commit=False
     )
-    fill_models = await donation_crud.get_unfilled_projects(session)
+    fill_models = await donation_crud.get_unfilled(session)
     invested_list = investment(new_project, fill_models)
     await charity_project_crud.commit_objects(invested_list, session)
     await session.refresh(new_project)

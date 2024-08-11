@@ -86,7 +86,6 @@ class CRUDBase:
 
         return db_obj.scalars().first()
 
-    # TODO: SEE LATER
     async def commit_objects(
         self,
         obj_list,
@@ -95,13 +94,12 @@ class CRUDBase:
         session.add_all(obj_list)
         await session.commit()
 
-    async def get_unfilled_projects(
+    async def get_unfilled(
         self,
         session: AsyncSession
     ):
-        objects = await session.execute(
+        return (await session.execute(
             select(self.model).where(
                 self.model.fully_invested == 0
             ).order_by(self.model.create_date)
-        )
-        return objects.scalars().all()
+        )).scalars().all()
