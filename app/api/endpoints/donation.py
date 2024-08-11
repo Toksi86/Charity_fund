@@ -54,9 +54,13 @@ async def create_donation(
         - Сессия базы данных обновляется.\n
         - Созданное пожертвование возвращается.
     """
-    new_donation = donation_crud.create_object_without_commit(donation, user)
-    session.add(new_donation)
-    fill_models = await charity_project_crud.get_unfilled_projects(session)  # noqa
+    new_donation = await donation_crud.create(
+        donation,
+        user=user,
+        session=session,
+        commit=False
+    )
+    fill_models = await charity_project_crud.get_unfilled_projects(session)
     invested_list = investment(new_donation, fill_models)
     await donation_crud.commit_objects(invested_list, session)
     await session.refresh(new_donation)

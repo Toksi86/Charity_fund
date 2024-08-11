@@ -6,8 +6,8 @@ from app.models import CharityProject
 
 
 def check_project_name_duplicate(
-        charity_project_name: str,
-        charity_project: CharityProject,
+    charity_project_name: str,
+    charity_project: CharityProject,
 ):
     """
     Проверяет, существует ли благотворительный проект с указанным именем.
@@ -64,8 +64,8 @@ def check_the_project_has_investment(charity_project: CharityProject):
     if charity_project.invested_amount != 0:
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
-            detail='Нельзя удалить благотворительный проект, в который были'
-            'инвестированы средства.',
+            detail='Нельзя удалить благотворительный проект,'
+                   'в который были инвестированы средства.',
         )
 
 
@@ -112,5 +112,5 @@ def checks_the_new_amount_is_less_than_investments(
         raise HTTPException(
             status_code=HTTPStatus.BAD_REQUEST,
             detail='Новая полная сумма не может быть меньше суммы,'
-            'уже внесенной в качестве инвестиций.',
+                   'уже внесенной в качестве инвестиций.',
         )

@@ -8,16 +8,15 @@ from app.models import Donation, User
 class CRUDCharityProject(CRUDBase):
 
     async def get_by_user(
-            self,
-            session: AsyncSession,
-            user: User
+        self,
+        session: AsyncSession,
+        user: User
     ):
-        donations = await session.execute(
+        return (await session.execute(
             select(Donation).where(
                 Donation.user_id == user.id
             )
-        )
-        return donations.scalars().all()
+        )).scalars().all()
 
 
 donation_crud = CRUDCharityProject(Donation)
