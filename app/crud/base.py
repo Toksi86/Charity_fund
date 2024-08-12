@@ -38,6 +38,8 @@ class CRUDBase:
         commit: Optional[bool] = True,
     ):
         obj_in_data = obj_in.dict()
+        if 'invested_amount' not in obj_in_data:
+            obj_in_data['invested_amount'] = 0
         if user is not None:
             obj_in_data['user_id'] = user.id
         db_obj = self.model(**obj_in_data)
