@@ -7,7 +7,7 @@
 1. Склонируйте репозиторий:
 
     ```bash
-    git clone https://github.com/Toksi86/cat_charity_fund.git
+    git clone [https://github.com/Toksi86/catcharity_fund.git](https://github.com/Toksi86/Charity_fund.git)
     ```
 
 2. Перейдите в каталог проекта 
